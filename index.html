@@ -1,9 +1,2450 @@
 <!DOCTYPE html>
-<header>
-</header>
-<body> 
-    <center>
-    <h1> Usando projeto na Turma B - novo status</h1>
-    <h1> novo conteudo para manutenção</h1>
-    </center>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GARAGE PROJECT — Projetos Automotivos</title>
+
+    <style>
+        /* =========================================================
+           RESET
+        ========================================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #080a0d;
+            color: #f4f4f4;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        /* =========================================================
+           VARIÁVEIS
+        ========================================================= */
+        :root {
+            --red: #e10600;
+            --red-dark: #a80000;
+            --orange: #ff6b00;
+            --black: #080a0d;
+            --dark: #101318;
+            --dark-2: #171b21;
+            --gray: #9298a1;
+            --white: #ffffff;
+            --border: rgba(255,255,255,.08);
+            --shadow: 0 20px 60px rgba(0,0,0,.45);
+        }
+
+        /* =========================================================
+           SCROLLBAR
+        ========================================================= */
+        ::-webkit-scrollbar {
+            width: 9px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #080a0d;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--red);
+            border-radius: 20px;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 76px;
+            z-index: 1000;
+            background: rgba(8, 10, 13, .82);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: .3s;
+        }
+
+        header.scrolled {
+            background: rgba(8, 10, 13, .96);
+            box-shadow: 0 10px 40px rgba(0,0,0,.4);
+        }
+
+        .nav {
+            max-width: 1200px;
+            height: 100%;
+            margin: auto;
+            padding: 0 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: 3px;
+        }
+
+        .logo span {
+            color: var(--red);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ddd;
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: .2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--red);
+        }
+
+        .menu-btn {
+            display: none;
+            border: 0;
+            background: transparent;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+
+            background:
+                linear-gradient(90deg,
+                    rgba(5,7,10,.96) 0%,
+                    rgba(5,7,10,.82) 40%,
+                    rgba(5,7,10,.25) 75%,
+                    rgba(5,7,10,.75) 100%),
+                url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2000&q=85")
+                center/cover;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom,
+                    transparent 60%,
+                    var(--black) 100%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 120px 20px 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 8px 13px;
+            margin-bottom: 22px;
+
+            border: 1px solid rgba(255,255,255,.15);
+            background: rgba(255,255,255,.05);
+            backdrop-filter: blur(10px);
+
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ddd;
+        }
+
+        .hero-tag::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            background: var(--red);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--red);
+        }
+
+        .hero h1 {
+            max-width: 800px;
+            font-size: clamp(48px, 8vw, 105px);
+            line-height: .88;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -5px;
+        }
+
+        .hero h1 span {
+            color: var(--red);
+        }
+
+        .hero-description {
+            max-width: 570px;
+            margin-top: 30px;
+            color: #bbb;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 35px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-height: 50px;
+            padding: 0 25px;
+
+            border: 1px solid transparent;
+            cursor: pointer;
+
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            transition: .25s;
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff160e;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(225,6,0,.3);
+        }
+
+        .btn-outline {
+            border-color: rgba(255,255,255,.2);
+            background: rgba(255,255,255,.03);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            border-color: white;
+            transform: translateY(-3px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 45px;
+            margin-top: 65px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 28px;
+            color: white;
+        }
+
+        .stat span {
+            display: block;
+            margin-top: 5px;
+            color: #888;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* =========================================================
+           GERAL
+        ========================================================= */
+        section {
+            padding: 110px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .section-header {
+            margin-bottom: 45px;
+        }
+
+        .eyebrow {
+            color: var(--red);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(32px, 5vw, 58px);
+            text-transform: uppercase;
+            line-height: .95;
+            letter-spacing: -2px;
+        }
+
+        .section-subtitle {
+            max-width: 650px;
+            margin-top: 18px;
+            color: #8d939c;
+            line-height: 1.7;
+        }
+
+        /* =========================================================
+           CATÁLOGO
+        ========================================================= */
+        #catalogo {
+            background:
+                radial-gradient(circle at 20% 20%, rgba(225,6,0,.07), transparent 30%),
+                var(--black);
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .filter {
+            padding: 12px 17px;
+            border: 1px solid var(--border);
+            background: var(--dark);
+            color: #aaa;
+            cursor: pointer;
+
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            transition: .2s;
+        }
+
+        .filter:hover,
+        .filter.active {
+            background: var(--red);
+            color: white;
+            border-color: var(--red);
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .car-card {
+            position: relative;
+            overflow: hidden;
+
+            background: var(--dark);
+            border: 1px solid var(--border);
+
+            transition: .3s;
+        }
+
+        .car-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(225,6,0,.5);
+            box-shadow: var(--shadow);
+        }
+
+        .car-image {
+            height: 240px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .car-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .car-card:hover .car-image img {
+            transform: scale(1.07);
+        }
+
+        .car-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+
+            background: var(--red);
+            color: white;
+            padding: 7px 10px;
+
+            font-size: 9px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .car-info {
+            padding: 22px;
+        }
+
+        .car-brand {
+            color: var(--red);
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .car-name {
+            margin-top: 5px;
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .car-specs {
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .spec {
+            color: #888;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .spec strong {
+            display: block;
+            margin-top: 5px;
+            color: #eee;
+            font-size: 13px;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .details-btn {
+            background: transparent;
+            color: var(--red);
+            border: 0;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* =========================================================
+           PROJETO DESTAQUE
+        ========================================================= */
+        .featured {
+            background: #0c0f13;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            min-height: 560px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+        }
+
+        .featured-image {
+            min-height: 500px;
+            background:
+                linear-gradient(90deg, transparent 50%, rgba(16,19,24,.2)),
+                url("https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1400&q=85")
+                center/cover;
+        }
+
+        .featured-content {
+            padding: 60px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .featured-content h3 {
+            font-size: clamp(35px, 5vw, 60px);
+            line-height: .9;
+            text-transform: uppercase;
+        }
+
+        .featured-content h3 span {
+            color: var(--red);
+        }
+
+        .featured-content p {
+            color: #8c929b;
+            line-height: 1.8;
+            margin: 25px 0;
+        }
+
+        .build-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .build-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+            color: #bbb;
+            font-size: 13px;
+        }
+
+        .build-list li::before {
+            content: "✓";
+            color: var(--red);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        /* =========================================================
+           ETAPAS
+        ========================================================= */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .step {
+            padding: 30px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .step-number {
+            font-size: 45px;
+            color: rgba(225,6,0,.2);
+            font-weight: 900;
+        }
+
+        .step h3 {
+            margin-top: 10px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .step p {
+            color: #7f858d;
+            margin-top: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* =========================================================
+           GALERIA
+        ========================================================= */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            grid-auto-rows: 220px;
+            gap: 10px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item:nth-child(1) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item::after {
+            content: "+";
+            position: absolute;
+            inset: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(225,6,0,.65);
+            font-size: 40px;
+
+            opacity: 0;
+            transition: .3s;
+        }
+
+        .gallery-item:hover::after {
+            opacity: 1;
+        }
+
+        /* =========================================================
+           ORÇAMENTO
+        ========================================================= */
+        .budget {
+            background:
+                linear-gradient(135deg, #160304, #080a0d 55%);
+        }
+
+        .budget-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .budget-copy h2 {
+            font-size: clamp(35px,5vw,65px);
+            text-transform: uppercase;
+            line-height: .9;
+        }
+
+        .budget-copy h2 span {
+            color: var(--red);
+        }
+
+        .budget-copy p {
+            color: #888;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        .budget-form {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            padding: 35px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #999;
+            margin-bottom: 8px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            height: 50px;
+
+            background: #0b0d10;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 0 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--red);
+        }
+
+        .budget-result {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(225,6,0,.08);
+            border: 1px solid rgba(225,6,0,.25);
+        }
+
+        .budget-result small {
+            color: #888;
+            display: block;
+        }
+
+        .budget-result strong {
+            display: block;
+            font-size: 30px;
+            margin-top: 5px;
+        }
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+        footer {
+            background: #050608;
+            border-top: 1px solid var(--border);
+            padding: 50px 20px 30px;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+
+        .footer-brand p {
+            max-width: 360px;
+            margin-top: 15px;
+            color: #70757d;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        footer h4 {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin-bottom: 10px;
+            color: #70757d;
+            font-size: 13px;
+        }
+
+        .copyright {
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding-top: 25px;
+            border-top: 1px solid var(--border);
+            color: #555;
+            font-size: 11px;
+        }
+
+        /* =========================================================
+           MODAL
+        ========================================================= */
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+            background: rgba(0,0,0,.82);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: min(900px,100%);
+            max-height: 90vh;
+            overflow-y: auto;
+
+            background: #101318;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+
+            position: relative;
+            animation: modalIn .25s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-image {
+            height: 300px;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 35px;
+        }
+
+        .modal-body h2 {
+            font-size: 40px;
+            text-transform: uppercase;
+        }
+
+        .modal-body p {
+            color: #898f97;
+            line-height: 1.7;
+            margin: 15px 0 25px;
+        }
+
+        .modal-specs {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 10px;
+        }
+
+        .modal-spec {
+            padding: 18px;
+            background: #0a0c0f;
+            border: 1px solid var(--border);
+        }
+
+        .modal-spec span {
+            display: block;
+            color: #777;
+            font-size: 9px;
+            text-transform: uppercase;
+        }
+
+        .modal-spec strong {
+            display: block;
+            margin-top: 5px;
+            font-size: 15px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+
+            width: 40px;
+            height: 40px;
+
+            border: 1px solid rgba(255,255,255,.2);
+            background: rgba(0,0,0,.6);
+            color: white;
+
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 2;
+        }
+
+        /* =========================================================
+           TOAST
+        ========================================================= */
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 3000;
+
+            padding: 15px 20px;
+            background: #15191e;
+            border-left: 4px solid var(--red);
+            box-shadow: var(--shadow);
+
+            transform: translateX(150%);
+            transition: .3s;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* =========================================================
+           RESPONSIVO
+        ========================================================= */
+        @media (max-width: 900px) {
+            .cars-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .featured-grid,
+            .budget-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-image {
+                min-height: 350px;
+            }
+
+            .steps {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+            header {
+                height: 65px;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 65px;
+                left: 0;
+                width: 100%;
+
+                display: none;
+                flex-direction: column;
+                align-items: flex-start;
+
+                padding: 20px;
+
+                background: rgba(8,10,13,.98);
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hero h1 {
+                letter-spacing: -3px;
+            }
+
+            .hero-stats {
+                gap: 25px;
+                flex-wrap: wrap;
+            }
+
+            .cars-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr 1fr;
+                grid-auto-rows: 160px;
+            }
+
+            .gallery-item:nth-child(1) {
+                grid-column: span 2;
+            }
+
+            .featured-content {
+                padding: 35px 25px;
+            }
+
+            .modal-specs {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================================================
+         HEADER
+    ========================================================= -->
+    <header id="header">
+
+        <nav class="nav">
+
+            <a href="#inicio" class="logo">
+                GARAGE<span>PROJECT</span>
+            </a>
+
+            <button class="menu-btn" id="menuBtn">
+                ☰
+            </button>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#catalogo">Carros</a></li>
+                <li><a href="#projeto">Projeto</a></li>
+                <li><a href="#galeria">Galeria</a></li>
+                <li><a href="#orcamento">Orçamento</a></li>
+            </ul>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================================================
+         HERO
+    ========================================================= -->
+    <main>
+
+        <section class="hero" id="inicio">
+
+            <div class="hero-content">
+
+                <div class="hero-tag">
+                    Automotive Project
+                </div>
+
+                <h1>
+                    Built<br>
+                    Not <span>Bought.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Um catálogo dedicado a carros clássicos, projetos JDM,
+                    preparação, restauração e personalização automotiva.
+                    Transforme uma máquina esquecida em algo único.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#catalogo" class="btn btn-primary">
+                        Explorar carros
+                    </a>
+
+                    <a href="#projeto" class="btn btn-outline">
+                        Ver projeto
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+
+                    <div class="stat">
+                        <strong>24+</strong>
+                        <span>Projetos</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>18</strong>
+                        <span>Builds completos</span>
+                    </div>
+
+                    <div class="stat">
+                        <strong>06</strong>
+                        <span>Marcas</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CATÁLOGO
+        ====================================================== -->
+        <section id="catalogo">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div class="eyebrow">
+                        Garage Database
+                    </div>
+
+                    <h2 class="section-title">
+                        Escolha sua máquina
+                    </h2>
+
+                    <p class="section-subtitle">
+                        Explore alguns carros que podem servir como base
+                        para restauração, preparação ou projeto personalizado.
+                    </p>
+
+                </div>
+
+
+                <div class="filters">
+
+                    <button class="filter active" data-filter="all">
+                        Todos
+                    </button>
+
+                    <button class="filter" data-filter="jdm">
+                        JDM
+                    </button>
+
+                    <button class="filter" data-filter="europeu">
+                        Europeus
+                    </button>
+
+                    <button class="filter" data-filter="muscle">
+                        Muscle
+                    </button>
+
+                    <button class="filter" data-filter="classico">
+                        Clássicos
+                    </button>
+
+                </div>
+
+
+                <div class="cars-grid" id="carsGrid">
+
+                    <!-- GALANT -->
+                    <article
+                        class="car-card"
+                        data-category="jdm classico"
+                        data-name="Mitsubishi Galant VR-4"
+                        data-brand="Mitsubishi"
+                        data-year="1991"
+                        data-engine="2.0 Turbo"
+                        data-power="240 cv"
+                        data-drive="4WD"
+                        data-price="45.000"
+                        data-image="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80"
+                    >
+
+                        <div class="car-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80"
+                                alt="Carro esportivo"
+                            >
+
+                            <span class="car-badge">
+                                JDM
+                            </span>
+
+                        </div>
+
+                        <div class="car-info">
+
+                            <div class="car-brand">
+                                Mitsubishi
+                            </div>
+
+                            <h3 class="car-name">
+                                Galant VR-4
+                            </h3>
+
+                            <div class="car-specs">
+
+                                <div class="spec">
+                                    Ano
+                                    <strong>1991</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Motor
+                                    <strong>2.0 Turbo</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Potência
+                                    <strong>240 cv</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Tração
+                                    <strong>4WD</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="price">
+                                    R$ 45 mil
+                                </span>
+
+                                <button class="details-btn">
+                                    Ver projeto →
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- SKYLINE -->
+                    <article
+                        class="car-card"
+                        data-category="jdm"
+                        data-name="Nissan Skyline R32"
+                        data-brand="Nissan"
+                        data-year="1990"
+                        data-engine="RB20DET"
+                        data-power="215 cv"
+                        data-drive="RWD"
+                        data-price="95.000"
+                        data-image="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1200&q=80"
+                    >
+
+                        <div class="car-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1200&q=80"
+                                alt="Carro esportivo"
+                            >
+
+                            <span class="car-badge">
+                                JDM
+                            </span>
+
+                        </div>
+
+                        <div class="car-info">
+
+                            <div class="car-brand">
+                                Nissan
+                            </div>
+
+                            <h3 class="car-name">
+                                Skyline R32
+                            </h3>
+
+                            <div class="car-specs">
+
+                                <div class="spec">
+                                    Ano
+                                    <strong>1990</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Motor
+                                    <strong>RB20DET</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Potência
+                                    <strong>215 cv</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Tração
+                                    <strong>RWD</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="price">
+                                    R$ 95 mil
+                                </span>
+
+                                <button class="details-btn">
+                                    Ver projeto →
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- BMW -->
+                    <article
+                        class="car-card"
+                        data-category="europeu"
+                        data-name="BMW E36 328i"
+                        data-brand="BMW"
+                        data-year="1996"
+                        data-engine="M52B28"
+                        data-power="193 cv"
+                        data-drive="RWD"
+                        data-price="65.000"
+                        data-image="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80"
+                    >
+
+                        <div class="car-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80"
+                                alt="BMW"
+                            >
+
+                            <span class="car-badge">
+                                EURO
+                            </span>
+
+                        </div>
+
+                        <div class="car-info">
+
+                            <div class="car-brand">
+                                BMW
+                            </div>
+
+                            <h3 class="car-name">
+                                E36 328i
+                            </h3>
+
+                            <div class="car-specs">
+
+                                <div class="spec">
+                                    Ano
+                                    <strong>1996</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Motor
+                                    <strong>M52B28</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Potência
+                                    <strong>193 cv</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Tração
+                                    <strong>RWD</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="price">
+                                    R$ 65 mil
+                                </span>
+
+                                <button class="details-btn">
+                                    Ver projeto →
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- SUPRA -->
+                    <article
+                        class="car-card"
+                        data-category="jdm"
+                        data-name="Toyota Supra MK4"
+                        data-brand="Toyota"
+                        data-year="1994"
+                        data-engine="2JZ-GTE"
+                        data-power="280 cv"
+                        data-drive="RWD"
+                        data-price="180.000"
+                        data-image="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=1200&q=80"
+                    >
+
+                        <div class="car-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1614200187524-dc4b892acf16?auto=format&fit=crop&w=1200&q=80"
+                                alt="Toyota Supra"
+                            >
+
+                            <span class="car-badge">
+                                JDM
+                            </span>
+
+                        </div>
+
+                        <div class="car-info">
+
+                            <div class="car-brand">
+                                Toyota
+                            </div>
+
+                            <h3 class="car-name">
+                                Supra MK4
+                            </h3>
+
+                            <div class="car-specs">
+
+                                <div class="spec">
+                                    Ano
+                                    <strong>1994</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Motor
+                                    <strong>2JZ-GTE</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Potência
+                                    <strong>280 cv</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Tração
+                                    <strong>RWD</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="price">
+                                    R$ 180 mil
+                                </span>
+
+                                <button class="details-btn">
+                                    Ver projeto →
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- MUSTANG -->
+                    <article
+                        class="car-card"
+                        data-category="muscle"
+                        data-name="Ford Mustang GT"
+                        data-brand="Ford"
+                        data-year="1969"
+                        data-engine="V8 5.0"
+                        data-power="300 cv"
+                        data-drive="RWD"
+                        data-price="120.000"
+                        data-image="https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1200&q=80"
+                    >
+
+                        <div class="car-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1584345604476-8ec5e12e42dd?auto=format&fit=crop&w=1200&q=80"
+                                alt="Ford Mustang"
+                            >
+
+                            <span class="car-badge">
+                                MUSCLE
+                            </span>
+
+                        </div>
+
+                        <div class="car-info">
+
+                            <div class="car-brand">
+                                Ford
+                            </div>
+
+                            <h3 class="car-name">
+                                Mustang GT
+                            </h3>
+
+                            <div class="car-specs">
+
+                                <div class="spec">
+                                    Ano
+                                    <strong>1969</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Motor
+                                    <strong>V8 5.0</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Potência
+                                    <strong>300 cv</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Tração
+                                    <strong>RWD</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="price">
+                                    R$ 120 mil
+                                </span>
+
+                                <button class="details-btn">
+                                    Ver projeto →
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <!-- CIVIC -->
+                    <article
+                        class="car-card"
+                        data-category="jdm"
+                        data-name="Honda Civic EK"
+                        data-brand="Honda"
+                        data-year="1999"
+                        data-engine="B16A2"
+                        data-power="160 cv"
+                        data-drive="FWD"
+                        data-price="48.000"
+                        data-image="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1200&q=80"
+                    >
+
+                        <div class="car-image">
+
+                            <img
+                                src="https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1200&q=80"
+                                alt="Honda Civic"
+                            >
+
+                            <span class="car-badge">
+                                JDM
+                            </span>
+
+                        </div>
+
+                        <div class="car-info">
+
+                            <div class="car-brand">
+                                Honda
+                            </div>
+
+                            <h3 class="car-name">
+                                Civic EK
+                            </h3>
+
+                            <div class="car-specs">
+
+                                <div class="spec">
+                                    Ano
+                                    <strong>1999</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Motor
+                                    <strong>B16A2</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Potência
+                                    <strong>160 cv</strong>
+                                </div>
+
+                                <div class="spec">
+                                    Tração
+                                    <strong>FWD</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+
+                                <span class="price">
+                                    R$ 48 mil
+                                </span>
+
+                                <button class="details-btn">
+                                    Ver projeto →
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PROJETO GALANT
+        ====================================================== -->
+        <section class="featured" id="projeto">
+
+            <div class="container">
+
+                <div class="featured-grid">
+
+                    <div class="featured-image"></div>
+
+                    <div class="featured-content">
+
+                        <div class="eyebrow">
+                            Project #001
+                        </div>
+
+                        <h3>
+                            Galant<br>
+                            <span>VR-4</span>
+                        </h3>
+
+                        <p>
+                            Uma proposta de projeto baseada em um clássico
+                            japonês. Visual discreto, preparação mecânica,
+                            rodas de época e uma estética inspirada nos
+                            carros de rally dos anos 90.
+                        </p>
+
+                        <ul class="build-list">
+
+                            <li>
+                                Motor 4G63 Turbo
+                            </li>
+
+                            <li>
+                                Upgrade de intercooler
+                            </li>
+
+                            <li>
+                                Suspensão esportiva
+                            </li>
+
+                            <li>
+                                Rodas 17" estilo rally
+                            </li>
+
+                            <li>
+                                Freios dimensionados
+                            </li>
+
+                        </ul>
+
+                        <a href="#orcamento" class="btn btn-primary">
+                            Montar meu projeto
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             PROCESSO
+        ====================================================== -->
+        <section>
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div class="eyebrow">
+                        Build Process
+                    </div>
+
+                    <h2 class="section-title">
+                        Do projeto à garagem
+                    </h2>
+
+                </div>
+
+                <div class="steps">
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            01
+                        </div>
+
+                        <h3>
+                            Base
+                        </h3>
+
+                        <p>
+                            Escolha o carro e defina o objetivo do projeto.
+                        </p>
+
+                    </div>
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            02
+                        </div>
+
+                        <h3>
+                            Planejamento
+                        </h3>
+
+                        <p>
+                            Defina motor, suspensão, rodas, freios e visual.
+                        </p>
+
+                    </div>
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            03
+                        </div>
+
+                        <h3>
+                            Build
+                        </h3>
+
+                        <p>
+                            Instalação das peças e execução da preparação.
+                        </p>
+
+                    </div>
+
+                    <div class="step">
+
+                        <div class="step-number">
+                            04
+                        </div>
+
+                        <h3>
+                            Final
+                        </h3>
+
+                        <p>
+                            Acabamento, ajustes e apresentação do projeto.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             GALERIA
+        ====================================================== -->
+        <section id="galeria">
+
+            <div class="container">
+
+                <div class="section-header">
+
+                    <div class="eyebrow">
+                        Garage Gallery
+                    </div>
+
+                    <h2 class="section-title">
+                        Inspiração
+                    </h2>
+
+                </div>
+
+                <div class="gallery">
+
+                    <div class="gallery-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1400&q=85"
+                            alt="Carro esportivo"
+                        >
+                    </div>
+
+                    <div class="gallery-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1504215680853-026ed2a45def?auto=format&fit=crop&w=1000&q=85"
+                            alt="Carro"
+                        >
+                    </div>
+
+                    <div class="gallery-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&w=1000&q=85"
+                            alt="Carro esportivo"
+                        >
+                    </div>
+
+                    <div class="gallery-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1000&q=85"
+                            alt="Carro"
+                        >
+                    </div>
+
+                    <div class="gallery-item">
+                        <img
+                            src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1000&q=85"
+                            alt="Carro"
+                        >
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             ORÇAMENTO
+        ====================================================== -->
+        <section class="budget" id="orcamento">
+
+            <div class="container">
+
+                <div class="budget-grid">
+
+                    <div class="budget-copy">
+
+                        <div class="eyebrow">
+                            Project Calculator
+                        </div>
+
+                        <h2>
+                            Quanto custa<br>
+                            seu <span>build?</span>
+                        </h2>
+
+                        <p>
+                            Simule um orçamento inicial selecionando
+                            o nível de preparação que você deseja para
+                            seu projeto.
+                        </p>
+
+                    </div>
+
+
+                    <form class="budget-form" id="budgetForm">
+
+                        <div class="form-group">
+
+                            <label>
+                                Carro
+                            </label>
+
+                            <select id="carSelect">
+
+                                <option value="45000">
+                                    Mitsubishi Galant VR-4
+                                </option>
+
+                                <option value="95000">
+                                    Nissan Skyline R32
+                                </option>
+
+                                <option value="65000">
+                                    BMW E36 328i
+                                </option>
+
+                                <option value="180000">
+                                    Toyota Supra MK4
+                                </option>
+
+                                <option value="120000">
+                                    Ford Mustang GT
+                                </option>
+
+                                <option value="48000">
+                                    Honda Civic EK
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Nível do projeto
+                            </label>
+
+                            <select id="buildLevel">
+
+                                <option value="0">
+                                    Stage 1 — Visual
+                                </option>
+
+                                <option value="15000">
+                                    Stage 2 — Suspensão + Freios
+                                </option>
+
+                                <option value="35000">
+                                    Stage 3 — Preparação
+                                </option>
+
+                                <option value="70000">
+                                    Stage 4 — Build completo
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Rodas
+                            </label>
+
+                            <select id="wheels">
+
+                                <option value="0">
+                                    Originais
+                                </option>
+
+                                <option value="6000">
+                                    Esportivas
+                                </option>
+
+                                <option value="12000">
+                                    Premium
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            style="width:100%"
+                        >
+                            Calcular projeto
+                        </button>
+
+
+                        <div class="budget-result">
+
+                            <small>
+                                ESTIMATIVA INICIAL
+                            </small>
+
+                            <strong id="budgetValue">
+                                R$ 45.000
+                            </strong>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         FOOTER
+    ========================================================= -->
+    <footer>
+
+        <div class="footer-grid">
+
+            <div class="footer-brand">
+
+                <div class="logo">
+                    GARAGE<span>PROJECT</span>
+                </div>
+
+                <p>
+                    Projeto demonstrativo de uma plataforma automotiva
+                    para entusiastas, colecionadores e construtores.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Navegação
+                </h4>
+
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#catalogo">Carros</a></li>
+                    <li><a href="#projeto">Projeto</a></li>
+                    <li><a href="#galeria">Galeria</a></li>
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Projetos
+                </h4>
+
+                <ul>
+                    <li>JDM</li>
+                    <li>Euro</li>
+                    <li>Muscle</li>
+                    <li>Clássicos</li>
+                </ul>
+
+            </div>
+
+
+            <div>
+
+                <h4>
+                    Social
+                </h4>
+
+                <ul>
+                    <li>Instagram</li>
+                    <li>YouTube</li>
+                    <li>Discord</li>
+                    <li>Contato</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+            © 2026 Garage Project — Projeto demonstrativo.
+        </div>
+
+    </footer>
+
+
+    <!-- =========================================================
+         MODAL
+    ========================================================= -->
+    <div class="modal" id="carModal">
+
+        <div class="modal-content">
+
+            <button class="close-modal" id="closeModal">
+                ×
+            </button>
+
+            <div class="modal-image">
+                <img id="modalImage" src="" alt="">
+            </div>
+
+            <div class="modal-body">
+
+                <div class="eyebrow" id="modalBrand">
+                    Mitsubishi
+                </div>
+
+                <h2 id="modalName">
+                    Galant VR-4
+                </h2>
+
+                <p>
+                    Projeto demonstrativo de preparação automotiva.
+                    As especificações apresentadas são ilustrativas
+                    e podem ser alteradas conforme a configuração
+                    do veículo.
+                </p>
+
+                <div class="modal-specs">
+
+                    <div class="modal-spec">
+                        <span>Ano</span>
+                        <strong id="modalYear">1991</strong>
+                    </div>
+
+                    <div class="modal-spec">
+                        <span>Motor</span>
+                        <strong id="modalEngine">2.0 Turbo</strong>
+                    </div>
+
+                    <div class="modal-spec">
+                        <span>Potência</span>
+                        <strong id="modalPower">240 cv</strong>
+                    </div>
+
+                    <div class="modal-spec">
+                        <span>Tração</span>
+                        <strong id="modalDrive">4WD</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+        Projeto calculado com sucesso!
+    </div>
+
+
+    <script>
+        /* =========================================================
+           MENU MOBILE
+        ========================================================= */
+
+        const menuBtn = document.getElementById("menuBtn");
+        const navLinks = document.getElementById("navLinks");
+
+        menuBtn.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+        });
+
+
+        /* =========================================================
+           FECHAR MENU AO CLICAR
+        ========================================================= */
+
+        document.querySelectorAll(".nav-links a").forEach(link => {
+
+            link.addEventListener("click", () => {
+                navLinks.classList.remove("active");
+            });
+
+        });
+
+
+        /* =========================================================
+           HEADER SCROLL
+        ========================================================= */
+
+        const header = document.getElementById("header");
+
+        window.addEventListener("scroll", () => {
+
+            if (window.scrollY > 40) {
+                header.classList.add("scrolled");
+            } else {
+                header.classList.remove("scrolled");
+            }
+
+        });
+
+
+        /* =========================================================
+           FILTRO DE CARROS
+        ========================================================= */
+
+        const filters = document.querySelectorAll(".filter");
+        const cards = document.querySelectorAll(".car-card");
+
+        filters.forEach(filter => {
+
+            filter.addEventListener("click", () => {
+
+                filters.forEach(item => {
+                    item.classList.remove("active");
+                });
+
+                filter.classList.add("active");
+
+                const category = filter.dataset.filter;
+
+                cards.forEach(card => {
+
+                    const categories = card.dataset.category;
+
+                    if (
+                        category === "all" ||
+                        categories.includes(category)
+                    ) {
+
+                        card.style.display = "block";
+
+                        setTimeout(() => {
+                            card.style.opacity = "1";
+                            card.style.transform = "translateY(0)";
+                        }, 20);
+
+                    } else {
+
+                        card.style.opacity = "0";
+                        card.style.transform = "translateY(15px)";
+
+                        setTimeout(() => {
+                            card.style.display = "none";
+                        }, 200);
+
+                    }
+
+                });
+
+            });
+
+        });
+
+
+        /* =========================================================
+           MODAL DOS CARROS
+        ========================================================= */
+
+        const modal = document.getElementById("carModal");
+        const closeModal = document.getElementById("closeModal");
+
+        const modalImage = document.getElementById("modalImage");
+        const modalName = document.getElementById("modalName");
+        const modalBrand = document.getElementById("modalBrand");
+        const modalYear = document.getElementById("modalYear");
+        const modalEngine = document.getElementById("modalEngine");
+        const modalPower = document.getElementById("modalPower");
+        const modalDrive = document.getElementById("modalDrive");
+
+        document.querySelectorAll(".details-btn").forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const card = button.closest(".car-card");
+
+                modalImage.src = card.dataset.image;
+                modalName.textContent = card.dataset.name;
+                modalBrand.textContent = card.dataset.brand;
+
+                modalYear.textContent = card.dataset.year;
+                modalEngine.textContent = card.dataset.engine;
+                modalPower.textContent = card.dataset.power;
+                modalDrive.textContent = card.dataset.drive;
+
+                modal.classList.add("active");
+
+                document.body.style.overflow = "hidden";
+
+            });
+
+        });
+
+
+        function closeCarModal() {
+
+            modal.classList.remove("active");
+
+            document.body.style.overflow = "";
+
+        }
+
+
+        closeModal.addEventListener("click", closeCarModal);
+
+
+        modal.addEventListener("click", event => {
+
+            if (event.target === modal) {
+                closeCarModal();
+            }
+
+        });
+
+
+        document.addEventListener("keydown", event => {
+
+            if (event.key === "Escape") {
+                closeCarModal();
+            }
+
+        });
+
+
+        /* =========================================================
+           CALCULADORA
+        ========================================================= */
+
+        const budgetForm = document.getElementById("budgetForm");
+        const carSelect = document.getElementById("carSelect");
+        const buildLevel = document.getElementById("buildLevel");
+        const wheels = document.getElementById("wheels");
+        const budgetValue = document.getElementById("budgetValue");
+
+        budgetForm.addEventListener("submit", event => {
+
+            event.preventDefault();
+
+            const carPrice = Number(carSelect.value);
+            const buildPrice = Number(buildLevel.value);
+            const wheelPrice = Number(wheels.value);
+
+            const total = carPrice + buildPrice + wheelPrice;
+
+            budgetValue.textContent =
+                total.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                    maximumFractionDigits: 0
+                });
+
+            showToast("Projeto calculado com sucesso!");
+
+        });
+
+
+        /* =========================================================
+           TOAST
+        ========================================================= */
+
+        const toast = document.getElementById("toast");
+
+        let toastTimer;
+
+        function showToast(message) {
+
+            toast.textContent = message;
+
+            toast.classList.add("show");
+
+            clearTimeout(toastTimer);
+
+            toastTimer = setTimeout(() => {
+
+                toast.classList.remove("show");
+
+            }, 3000);
+
+        }
+
+
+        /* =========================================================
+           REVEAL AO SCROLL
+        ========================================================= */
+
+        const revealElements = document.querySelectorAll(
+            ".section-header, .car-card, .step, .featured-grid, .gallery-item, .budget-grid"
+        );
+
+        const observer = new IntersectionObserver(
+            entries => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+
+                        entry.target.style.opacity = "1";
+                        entry.target.style.transform = "translateY(0)";
+
+                        observer.unobserve(entry.target);
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: .12
+            }
+        );
+
+
+        revealElements.forEach(element => {
+
+            element.style.opacity = "0";
+            element.style.transform = "translateY(25px)";
+            element.style.transition = "opacity .7s ease, transform .7s ease";
+
+            observer.observe(element);
+
+        });
+
+
+        /* =========================================================
+           GALERIA — CLICK
+        ========================================================= */
+
+        document.querySelectorAll(".gallery-item").forEach(item => {
+
+            item.addEventListener("click", () => {
+
+                const image = item.querySelector("img");
+
+                if (image) {
+                    window.open(image.src, "_blank");
+                }
+
+            });
+
+        });
+
+
+        /* =========================================================
+           ANO AUTOMÁTICO DO FOOTER
+        ========================================================= */
+
+        const copyright = document.querySelector(".copyright");
+
+        copyright.innerHTML =
+            `© ${new Date().getFullYear()} Garage Project — Projeto demonstrativo.`;
+
+    </script>
+
 </body>
+</html>
